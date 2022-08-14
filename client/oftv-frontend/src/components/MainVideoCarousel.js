@@ -231,10 +231,10 @@ export default function MainVideoCarousel(props) {
                     />
                   </a>
                   <a href="$row[watch]">
-                    <h3>$row[title]</h3>
+                    <h3>$rows[title]</h3>
                   </a>
                   <a href="$row[channel]">
-                    <h4>$row[creator]</h4>
+                    <h4>$rows[creator]</h4>
                   </a>
                 </div>
                 <div className="fade-bottom-minor"></div>
