@@ -19,9 +19,13 @@ export default function App() {
             element={
               <>
                 <MainVideoCarousel />
-                <SubVideoCarousel carouselNumber={1} />
-                <SubVideoCarousel carouselNumber={2} />
-                <SubVideoCarousel carouselNumber={3} />
+                <SubVideoCarousel carouselNumber={1} topic={"music"} />
+                <SubVideoCarousel carouselNumber={2} topic={"comedy"} />
+                <SubVideoCarousel carouselNumber={3} topic={"BoBurnham"} />
+                <SubVideoCarousel
+                  carouselNumber={4}
+                  topic={"Comedy Central Stand-up"}
+                />
               </>
             }
           />

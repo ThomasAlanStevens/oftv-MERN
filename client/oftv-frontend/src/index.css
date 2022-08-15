@@ -409,6 +409,9 @@ main {
   margin: 0 10%;
 }
 
+.vid-info.main {
+}
+
 .vid-info.main h3 {
   position: absolute;
   bottom: 1.25em;
@@ -416,7 +419,7 @@ main {
   color: white;
   font-weight: 500;
   text-align: center;
-  font-size: 200%;
+  font-size: 1.25vw;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -433,7 +436,7 @@ main {
   left: 2.5em;
   color: rgba(255, 255, 255, 0.75);
   text-align: center;
-  font-size: 200%;
+  font-size: 1.25vw;
 }
 
 .vid-info.main h4:hover {
@@ -441,8 +444,8 @@ main {
 }
 
 .vid-info.main img {
-  width: 60px;
-  height: 60px;
+  width: 2.75vw;
+  height: 2.75vw;
   object-fit: cover;
   border-radius: 100%;
   position: absolute;
@@ -618,7 +621,7 @@ div.fade-bottom-minor {
 
 .fade-left-minor {
   position: absolute;
-  left: 0;
+  left: -5px;
   top: 0;
   z-index: 2;
   background: linear-gradient(
@@ -633,7 +636,7 @@ div.fade-bottom-minor {
 
 .fade-right-minor {
   position: absolute;
-  right: 0;
+  right: -5px;
   top: 0;
   z-index: 2;
   transform: rotate(180deg);
@@ -828,18 +831,14 @@ body.dark-mode * {
   .vid-info.main h3 {
     bottom: 1.5em;
     left: 2.5em;
-    font-size: 125%;
   }
 
   .vid-info.main h4 {
     bottom: 0.25em;
     left: 2.5em;
-    font-size: 125%;
   }
 
   .vid-info.main img {
-    width: 40px;
-    height: 40px;
     bottom: 0.5em;
     left: 0;
   }
@@ -885,18 +884,14 @@ body.dark-mode * {
   .vid-info.main h3 {
     bottom: 1.5em;
     left: 2.5em;
-    font-size: 100%;
   }
 
   .vid-info.main h4 {
     bottom: 0.25em;
     left: 2.5em;
-    font-size: 100%;
   }
 
   .vid-info.main img {
-    width: 30px;
-    height: 30px;
     bottom: 0.5em;
     left: 0;
   }
@@ -920,7 +915,7 @@ body.dark-mode * {
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
   .p-menu1 {
     display: block;
   }
@@ -937,18 +932,18 @@ body.dark-mode * {
   .vid-info.main h3 {
     bottom: 1.5em;
     left: 2.5em;
-    font-size: 200%;
+    font-size: 4vw;
   }
 
   .vid-info.main h4 {
     bottom: 0.25em;
     left: 2.5em;
-    font-size: 200%;
+    font-size: 4vw;
   }
 
   .vid-info.main img {
-    width: 60px;
-    height: 60px;
+    width: 9vw;
+    height: 9vw;
     bottom: 0.5em;
     left: 0;
   }
@@ -1001,18 +996,14 @@ body.dark-mode * {
   .vid-info.main h3 {
     bottom: 1.5em;
     left: 2.5em;
-    font-size: 100%;
   }
 
   .vid-info.main h4 {
     bottom: 0.25em;
     left: 2.5em;
-    font-size: 100%;
   }
 
   .vid-info.main img {
-    width: 30px;
-    height: 30px;
     bottom: 0.5em;
     left: 0;
   }

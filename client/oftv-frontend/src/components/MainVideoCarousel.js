@@ -18,7 +18,18 @@ import "swiper/css/scrollbar";
 import "swiper/css/bundle";
 
 export default function MainVideoCarousel(props) {
+  const [videoInfo, setVideoInfo] = React.useState([]);
+
+  const getVideos = React.useCallback(async () => {
+    const res = await fetch("/getVideoInfo");
+    const data = await res.json();
+    setVideoInfo(data);
+  }, []);
+
   React.useEffect(() => {
+    // Get video info
+    getVideos();
+
     // Autoplay muted video on mouse hover
     document
       .querySelectorAll("iframe")
@@ -35,11 +46,65 @@ export default function MainVideoCarousel(props) {
     function stopVideo() {
       this.src = this.src.replace("&autoplay=1", "&autoplay=0");
     }
-  }, []);
+
+    // Clean-up
+    return () => {
+      document
+        .querySelectorAll("iframe")
+        .forEach(iframe => iframe.removeEventListener("mouseleave", stopVideo));
+
+      document
+        .querySelectorAll("iframe")
+        .forEach(iframe => iframe.removeEventListener("mouseenter", playVideo));
+    };
+  }, [getVideos, videoInfo]);
+
+  const slides = videoInfo.map(video => {
+    return (
+      <SwiperSlide>
+        <div className="swiper-wrapper">
+          <div className="swiper-slide">
+            <a href={`${video.link}`}>
+              <figure>
+                <iframe
+                  width="560"
+                  height="315"
+                  src={`${video.link}?controls=0&autoplay=0&mute=1&enablejsapi=1`.replace(
+                    "watch?v=",
+                    "embed/"
+                  )}
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </figure>
+            </a>
+            <div className="vid-info main">
+              <a href={video.channel}>
+                <img
+                  className="channel-icon"
+                  src={video.icon}
+                  alt="Channel Icon"
+                />
+              </a>
+              <a href={video.link}>
+                <h3>{video.title}</h3>
+              </a>
+              <a href="$row[channel]">
+                <h4>{video.creator}</h4>
+              </a>
+            </div>
+            <div className="fade-bottom-minor"></div>
+          </div>
+        </div>
+      </SwiperSlide>
+    );
+  });
 
   return (
     <main className="swiper-container">
-      <div className="swiper mySwiperr">
+      <div className="swiper mySwiper">
         <div className="fade-left"></div>
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow]}
@@ -56,7 +121,7 @@ export default function MainVideoCarousel(props) {
             slideShadows: true,
           }}
           breakpoints={{
-            700: {
+            800: {
               slidesPerView: 3,
             },
           }}
@@ -64,183 +129,8 @@ export default function MainVideoCarousel(props) {
             nextEl: `.next0`,
             prevEl: `.prev0`,
           }}
-          height={"200px"}
         >
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[watch]">
-                  <figure>
-                    <iframe
-                      width="560"
-                      height="315"
-                      src={`https://www.youtube.com/embed/ltfULo-LNNA?controls=0&autoplay=0&mute=1&enablejsapi=1`}
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    ></iframe>
-                  </figure>
-                </a>
-                <div className="vid-info main">
-                  <a href="$row[channel]">
-                    <img
-                      className="channel-icon"
-                      src="https://yt3.ggpht.com/BiDYezdkoZBJ_tvkRzoGHNBM4qX6gfXIavl5lpsEz80FIVUfzRBXdSicBhih6GRcAsJEN0Yi5yM=s88-c-k-c0x00ffffff-no-rj"
-                      alt="Channel Icon"
-                    />
-                  </a>
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <a href="$row[channel]">
-                    <h4>$row[creator]</h4>
-                  </a>
-                </div>
-                <div className="fade-bottom-minor"></div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[watch]">
-                  <figure>
-                    <iframe
-                      width="560"
-                      height="315"
-                      src={`https://www.youtube.com/embed/ltfULo-LNNA?controls=0&autoplay=0&mute=1&enablejsapi=1`}
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    ></iframe>
-                  </figure>
-                </a>
-                <div className="vid-info main">
-                  <a href="$row[channel]">
-                    <img
-                      className="channel-icon"
-                      src="https://yt3.ggpht.com/BiDYezdkoZBJ_tvkRzoGHNBM4qX6gfXIavl5lpsEz80FIVUfzRBXdSicBhih6GRcAsJEN0Yi5yM=s88-c-k-c0x00ffffff-no-rj"
-                      alt="Channel Icon"
-                    />
-                  </a>
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <a href="$row[channel]">
-                    <h4>$row[creator]</h4>
-                  </a>
-                </div>
-                <div className="fade-bottom-minor"></div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[watch]">
-                  <figure>
-                    <iframe
-                      width="560"
-                      height="315"
-                      src={`https://www.youtube.com/embed/ltfULo-LNNA?controls=0&autoplay=0&mute=1&enablejsapi=1`}
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    ></iframe>
-                  </figure>
-                </a>
-                <div className="vid-info main">
-                  <a href="$row[channel]">
-                    <img
-                      className="channel-icon"
-                      src="https://yt3.ggpht.com/BiDYezdkoZBJ_tvkRzoGHNBM4qX6gfXIavl5lpsEz80FIVUfzRBXdSicBhih6GRcAsJEN0Yi5yM=s88-c-k-c0x00ffffff-no-rj"
-                      alt="Channel Icon"
-                    />
-                  </a>
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <a href="$row[channel]">
-                    <h4>$row[creator]</h4>
-                  </a>
-                </div>
-                <div className="fade-bottom-minor"></div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[watch]">
-                  <figure>
-                    <iframe
-                      width="560"
-                      height="315"
-                      src={`https://www.youtube.com/embed/ltfULo-LNNA?controls=0&autoplay=0&mute=1&enablejsapi=1`}
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    ></iframe>
-                  </figure>
-                </a>
-                <div className="vid-info main">
-                  <a href="$row[channel]">
-                    <img
-                      className="channel-icon"
-                      src="https://yt3.ggpht.com/BiDYezdkoZBJ_tvkRzoGHNBM4qX6gfXIavl5lpsEz80FIVUfzRBXdSicBhih6GRcAsJEN0Yi5yM=s88-c-k-c0x00ffffff-no-rj"
-                      alt="Channel Icon"
-                    />
-                  </a>
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <a href="$row[channel]">
-                    <h4>$row[creator]</h4>
-                  </a>
-                </div>
-                <div className="fade-bottom-minor"></div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[watch]">
-                  <figure>
-                    <iframe
-                      width="560"
-                      height="315"
-                      src={`https://www.youtube.com/embed/ltfULo-LNNA?controls=0&autoplay=0&mute=1&enablejsapi=1`}
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    ></iframe>
-                  </figure>
-                </a>
-                <div className="vid-info main">
-                  <a href="$row[channel]">
-                    <img
-                      className="channel-icon"
-                      src="https://yt3.ggpht.com/BiDYezdkoZBJ_tvkRzoGHNBM4qX6gfXIavl5lpsEz80FIVUfzRBXdSicBhih6GRcAsJEN0Yi5yM=s88-c-k-c0x00ffffff-no-rj"
-                      alt="Channel Icon"
-                    />
-                  </a>
-                  <a href="$row[watch]">
-                    <h3>$rows[title]</h3>
-                  </a>
-                  <a href="$row[channel]">
-                    <h4>$rows[creator]</h4>
-                  </a>
-                </div>
-                <div className="fade-bottom-minor"></div>
-              </div>
-            </div>
-          </SwiperSlide>
+          {slides}
         </Swiper>
         <div className="fade-right"></div>
       </div>

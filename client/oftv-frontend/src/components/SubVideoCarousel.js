@@ -11,10 +11,52 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 export default function SubVideoCarousel(props) {
+  const [videoInfo, setVideoInfo] = React.useState([]);
+
+  const getVideos = React.useCallback(async () => {
+    const res = await fetch("/getVideoInfo");
+    const data = await res.json();
+    setVideoInfo(data);
+  }, []);
+
+  React.useEffect(() => {
+    getVideos();
+  }, [getVideos, videoInfo]);
+
+  const filteredSlides = videoInfo.filter(video =>
+    Object.values(video).includes(props.topic)
+  );
+
+  const inputtedSlides = filteredSlides.map(video => {
+    return (
+      <SwiperSlide>
+        <div className="swiper-wrapper">
+          <div className="swiper-slide">
+            <a href={video.link}>
+              <img src={video.thumbnail} alt="Video Thumbnail" />
+            </a>
+            <div className="vid-info">
+              <a href={video.link}>
+                <h3>{video.title}</h3>
+              </a>
+              <div className="flex-row space-between">
+                <a href={video.channel}>
+                  <h4 className="content-creator">{video.creator}</h4>
+                </a>
+                <h5 className="video-time">Time</h5>
+              </div>
+            </div>
+            <div className="fade-bottom"></div>
+          </div>
+        </div>
+      </SwiperSlide>
+    );
+  });
+
   return (
     <section className="swiper-container">
       <h2 className="category">
-        <a href="https://of.tv/">Bo Burnham</a>
+        <a href="https://of.tv/">{props.topic}</a>
       </h2>
       <div className="swiper mySwiper">
         <div className="fade-left-minor"></div>
@@ -32,131 +74,12 @@ export default function SubVideoCarousel(props) {
             1600: {
               slidesPerView: 5,
             },
-            700: {
+            800: {
               slidesPerView: 3,
             },
           }}
         >
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[link]">
-                  <img
-                    src="https://img.youtube.com/vi/ltfULo-LNNA/maxresdefault.jpg"
-                    alt="#"
-                  />
-                </a>
-                <div className="vid-info">
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <div className="flex-row space-between">
-                    <a href="$row[channel]">
-                      <h4 className="content-creator">$row[creator]</h4>
-                    </a>
-                    <h5 className="video-time">Time</h5>
-                  </div>
-                </div>
-                <div className="fade-bottom"></div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[link]">
-                  <img
-                    src="https://img.youtube.com/vi/1lDYSpmdLzM/maxresdefault.jpg"
-                    alt="#"
-                  />
-                </a>
-                <div className="vid-info">
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <div className="flex-row space-between">
-                    <a href="$row[channel]">
-                      <h4 className="content-creator">$row[creator]</h4>
-                    </a>
-                    <h5 className="video-time">Time</h5>
-                  </div>
-                </div>
-                <div className="fade-bottom"></div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[link]">
-                  <img
-                    src="https://img.youtube.com/vi/kuGxRbY_wHs/maxresdefault.jpg"
-                    alt="#"
-                  />
-                </a>
-                <div className="vid-info">
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <div className="flex-row space-between">
-                    <a href="$row[channel]">
-                      <h4 className="content-creator">$row[creator]</h4>
-                    </a>
-                    <h5 className="video-time">Time</h5>
-                  </div>
-                </div>
-                <div className="fade-bottom"></div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[link]">
-                  <img
-                    src="https://img.youtube.com/vi/kuGxRbY_wHs/maxresdefault.jpg"
-                    alt="#"
-                  />
-                </a>
-                <div className="vid-info">
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <div className="flex-row space-between">
-                    <a href="$row[channel]">
-                      <h4 className="content-creator">$row[creator]</h4>
-                    </a>
-                    <h5 className="video-time">Time</h5>
-                  </div>
-                </div>
-                <div className="fade-bottom"></div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <a href="$row[link]">
-                  <img
-                    src="https://img.youtube.com/vi/kuGxRbY_wHs/maxresdefault.jpg"
-                    alt="#"
-                  />
-                </a>
-                <div className="vid-info">
-                  <a href="$row[watch]">
-                    <h3>$row[title]</h3>
-                  </a>
-                  <div className="flex-row space-between">
-                    <a href="$row[channel]">
-                      <h4 className="content-creator">$row[creator]</h4>
-                    </a>
-                    <h5 className="video-time">Time</h5>
-                  </div>
-                </div>
-                <div className="fade-bottom"></div>
-              </div>
-            </div>
-          </SwiperSlide>
+          {inputtedSlides}
         </Swiper>
         <div className="fade-right-minor"></div>
       </div>
